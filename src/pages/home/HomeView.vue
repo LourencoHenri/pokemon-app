@@ -24,8 +24,8 @@ onMounted(load)
         <div v-else-if="error" class="text-red-500">Erro ao carregar.</div>
 
         <div v-else-if="pokemon" class="space-y-3">
-            <img :src="shiny ? pokemon.shinySprite : pokemon.sprite" :alt="pokemon.name"
-                class="w-full h-160 object-contain" />
+            <!-- <img :src="shiny ? pokemon.shinySprite : pokemon.sprite" :alt="pokemon.name"
+                class="w-full h-160 object-contain" /> -->
             <h3 class="text-2xl font-semibold">#{{ pokemon.id }} {{ displayName }}</h3>
             <p class="text-sm text-zinc-600 dark:text-zinc-400">{{ pokemon.flavor }}</p>
             <!-- … demais campos (types, stats etc.) … -->

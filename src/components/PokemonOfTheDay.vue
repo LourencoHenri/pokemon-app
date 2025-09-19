@@ -46,8 +46,8 @@ const typeColor: Record<string, string> = {
         <div v-else-if="pokemon" class="grid md:grid-cols-2 gap-6">
             <!-- Arte -->
             <div class="flex items-center justify-center">
-                <img :src="shiny ? pokemon.shinySprite : pokemon.sprite" :alt="pokemon.name"
-                    class="w-64 h-64 object-contain drop-shadow" loading="eager" />
+                <!-- <img :src="shiny ? pokemon.shinySprite : pokemon.sprite" :alt="pokemon.name"
+                    class="w-64 h-64 object-contain drop-shadow" loading="eager" /> -->
             </div>
 
             <!-- Info -->

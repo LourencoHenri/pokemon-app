@@ -6,7 +6,7 @@ type DailyPokemon = {
   name: string;
   types: string[];
   sprite: string | null;
-  shinySprite: string | null;
+  shinySprite: string;
   heightM: number;
   weightKg: number;
   abilities: string[];
