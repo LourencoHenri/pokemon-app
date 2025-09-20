@@ -21,13 +21,13 @@ const mobileMenuOpen = ref(false)
 
 </script>
 
-<template class="max-w-12">
-  <header class="absolute inset-x-0 top-0 z-50">
-    <nav class="flex items-center justify-between px-6 py-2">
+<template >
+  <header class="absolute inset-x-0 top-0 z-50 align-center justify-center flex0 bg-zinc-100/20">
+    <nav class="flex items-center justify-between px-8 py-4 lg:w-full lg:max-w-[1920px]">
 
       <div class="flex lg:flex-1">
         <a href="#">
-          <img :src="pokeball || ''" class="h-10 w-auto rounded-2xl justify-center" />
+          <img :src="logoPokemon || ''" class="h-10 w-auto rounded-2xl justify-center" />
         </a>
       </div>
 
