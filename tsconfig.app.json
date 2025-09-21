@@ -7,7 +7,7 @@
 
     "paths": {
       "@/*": ["./src/*"],
-      "@/pages/*": ["./src/pages/*"],
+      "@/views/*": ["./src/views/*"],
       "@/components/*": ["./src/components/*"],
       "@/router": ["./src/router.ts"],
       "@/composables/*": ["./src/composables/*"],

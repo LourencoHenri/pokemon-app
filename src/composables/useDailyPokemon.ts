@@ -1,5 +1,6 @@
 import { ref, computed, onBeforeUnmount } from "vue";
 import pokeApi from "@/services/pokeApi";
+import type { Pokemon } from "@/types/pokemon";
 
 type DailyPokemon = {
   id: number;
@@ -15,7 +16,7 @@ type DailyPokemon = {
   flavor: string;
 };
 
-const MAX_ID_FALLBACK = 1010; // caso a contagem falhe (ajuste se quiser)
+const MAX_ID_FALLBACK = 1100; // caso a contagem falhe (ajuste se quiser)
 
 function localDateKey() {
   const d = new Date();
@@ -56,7 +57,7 @@ export function useDailyPokemon() {
   const dayKey = localDateKey();
   const loading = ref(false);
   const error = ref<unknown>(null);
-  const pokemon = ref<DailyPokemon | null>(null);
+  const pokemon = ref<Pokemon | null>(null);
   const shiny = ref(false);
 
   const abort = new AbortController();
@@ -67,7 +68,7 @@ export function useDailyPokemon() {
     const cached = localStorage.getItem(cacheKey);
     if (cached) {
       try {
-        pokemon.value = JSON.parse(cached) as DailyPokemon;
+        pokemon.value = JSON.parse(cached) as Pokemon;
         return;
       } catch {}
     }
@@ -79,8 +80,8 @@ export function useDailyPokemon() {
       const id = pickIdFromKey(dayKey, max);
 
       const [pRes, sRes] = await Promise.all([
-        pokeApi.get(`/pokemon/${id}`, { signal: abort.signal }),
-        pokeApi.get(`/pokemon-species/${id}`, { signal: abort.signal }),
+        pokeApi.get(`/pokemon/4`, { signal: abort.signal }),
+        pokeApi.get(`/pokemon-species/4`, { signal: abort.signal }),
       ]);
 
       const p = pRes.data;
@@ -95,27 +96,20 @@ export function useDailyPokemon() {
         .replace(/\s+/g, " ")
         .trim();
 
-      const data: DailyPokemon = {
+      const data: Pokemon = {
         id: p.id,
         name: p.name,
         types: p.types.map((t: any) => t.type.name),
         sprite:
-          p.sprites?.other?.["official-artwork"]?.front_default ??
-          p.sprites?.front_default ??
-          null,
-        shinySprite:
+          p.sprites?.other?.dream_world?.front_default ??
           p.sprites?.other?.["official-artwork"]?.front_shiny ??
-          p.sprites?.front_shiny ??
-          null,
-        heightM: p.height / 10,
-        weightKg: p.weight / 10,
-        abilities: p.abilities.map((a: any) => a.ability.name),
-        baseExp: p.base_experience,
+          p.sprites?.front_default,
+        height: p.height / 10,
+        weight: p.weight / 10,
         stats: p.stats.map((st: any) => ({
           name: st.stat.name,
           base: st.base_stat,
         })),
-        flavor,
       };
 
       pokemon.value = data;
