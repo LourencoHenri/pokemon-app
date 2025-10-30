@@ -3,8 +3,37 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-yellow-primary: #FFCB05;
-  --color-blue-primary: #3567B0;
+  --color-yellow-primary: #ffcb05;
+  --color-blue-primary: #3567b0;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
+}
+
+html {
+  scrollbar-gutter: stable both-edges;
 }
 
 *,

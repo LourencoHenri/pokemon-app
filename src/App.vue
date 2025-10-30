@@ -22,7 +22,7 @@ const mobileMenuOpen = ref(false)
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 w-full bg-zinc-50/75">
+  <header class="sticky top-0 z-50 w-full bg-zinc-50/75 dark:bg-zinc-800/75">
     <nav class="flex items-center justify-between px-4 md:px-8 py-4">
 
       <div class="flex flex-1">
@@ -59,7 +59,8 @@ const mobileMenuOpen = ref(false)
     </nav>
 
     <Dialog class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
-      <DialogPanel class="fixed inset-y-0 right-0 z-50 w-full bg-zinc-50 sm:max-w-sm sm:ring-1 sm:ring-zinc-500/10">
+      <DialogPanel
+        class="fixed inset-y-0 right-0 z-50 w-full bg-zinc-50 dark:bg-zinc-800 sm:max-w-sm sm:ring-1 sm:ring-zinc-500/10">
 
         <div class="flex items-center justify-between px-4 md:px-8 py-4">
 
@@ -70,7 +71,7 @@ const mobileMenuOpen = ref(false)
           </div>
 
           <button type="button" class="rounded-md" @click="mobileMenuOpen = false">
-            <X class="size-6" />
+            <X class="size-6 text-zinc-950 dark:text-zinc-50" />
           </button>
         </div>
 
@@ -80,12 +81,12 @@ const mobileMenuOpen = ref(false)
 
             <div class="py-2">
               <a v-for="item in navigation" :key="item.name" :href="item.href"
-                class="block px-4 py-2 text-base/7 font-semibold hover:bg-zinc-50">{{
+                class="block px-4 py-2 text-base/7 font-semibold text-zinc-950 dark:text-zinc-50">{{
                   item.name }}</a>
             </div>
 
-            <div class="">
-              <a href="#" class="block px-4 py-2 text-base/7 font-semibold hover:bg-zinc-50">Log
+            <div>
+              <a href="#" class="block px-4 py-2 text-base/7 font-semibold text-zinc-950 dark:text-zinc-50">Log
                 in</a>
             </div>
 

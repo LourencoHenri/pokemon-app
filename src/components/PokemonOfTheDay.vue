@@ -69,11 +69,11 @@ const typeColor: Record<string, string> = {
                 <dl class="grid grid-cols-2 gap-3 text-sm">
                     <div>
                         <dt class="text-zinc-500">Altura</dt>
-                        <dd>{{ pokemon.heightM }} m</dd>
+                        <!-- <dd>{{ pokemon.heightM }} m</dd> -->
                     </div>
                     <div>
                         <dt class="text-zinc-500">Peso</dt>
-                        <dd>{{ pokemon.weightKg }} kg</dd>
+                        <!-- <dd>{{ pokemon.weightKg }} kg</dd> -->
                     </div>
                     <div>
                         <dt class="text-zinc-500">Habilidades</dt>
@@ -81,7 +81,7 @@ const typeColor: Record<string, string> = {
                     </div>
                     <div>
                         <dt class="text-zinc-500">Base EXP</dt>
-                        <dd>{{ pokemon.baseExp }}</dd>
+                        <!-- <dd>{{ pokemon.baseExp }}</dd> -->
                     </div>
                 </dl>
 
