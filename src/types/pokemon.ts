@@ -25,12 +25,30 @@ export type PokemonStat = {
   base: number;
 };
 
+export type PokemonAbility = {
+  name: string;
+  url: string;
+  isHidden: boolean;
+};
+
+export type PokemonGender =
+  | "male-only"
+  | "female-only"
+  | "male-and-female"
+  | "genderless";
+
 export type Pokemon = {
   id: number; //.id
   name: string; //.name
-  types: string[]; //.types.map((t: any) => t.type.name) //
   sprite: string; //.?sprites?.other?.dream_world?.front_default ?? sprites?.other?.["official-artwork"]?.front_shiny ?? sprites?.front_default
+  shinySprite: string;
   height: number;
   weight: number;
+
+  types: string[]; //.types.map((t: any) => t.type.name) //
   stats: PokemonStat[]; //.stats.map((st: any) => ({ name: st.stat.name, base: st.base_stat }))
+  abilities: PokemonAbility[]; //
+  gender: PokemonGender; //
+  category: string;
+  flavor: string;
 };

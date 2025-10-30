@@ -2,6 +2,11 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --color-yellow-primary: #FFCB05;
+  --color-blue-primary: #3567B0;
+}
+
 *,
 *::before,
 *::after {
