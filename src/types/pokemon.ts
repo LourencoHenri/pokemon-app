@@ -12,6 +12,8 @@
 //   flavor: string;
 // };
 
+import type { Component } from "vue";
+
 export type StatName =
   | "hp"
   | "attack"
@@ -31,11 +33,16 @@ export type PokemonAbility = {
   isHidden: boolean;
 };
 
-export type PokemonGender =
+export type GenderName =
   | "male-only"
   | "female-only"
   | "male-and-female"
   | "genderless";
+
+export type PokemonGender = {
+  name: GenderName;
+  icon?: Component;
+};
 
 export type Pokemon = {
   id: number; //.id

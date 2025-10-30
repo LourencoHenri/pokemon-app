@@ -2,6 +2,8 @@ import { ref, computed, onBeforeUnmount } from "vue";
 import pokeApi from "@/services/pokeApi";
 import type { Pokemon, PokemonGender } from "@/types/pokemon";
 
+import { Mars, Venus, VenusAndMars } from "lucide-vue-next";
+
 const MAX_ID_FALLBACK = 1100;
 
 function localDateKey() {
@@ -124,18 +126,18 @@ export function useDailyPokemon() {
 
       const getPokemonGender = (genderRate: number): PokemonGender => {
         if (genderRate === -1) {
-          return "genderless";
+          return { name: "genderless", icon: undefined };
         }
 
         if (genderRate === 0) {
-          return "male-only";
+          return { name: "male-only", icon: Mars };
         }
 
         if (genderRate === 8) {
-          return "female-only";
+          return { name: "female-only", icon: Venus };
         }
 
-        return "male-and-female";
+        return { name: "male-and-female", icon: VenusAndMars };
       };
 
       const pokemonGender = getPokemonGender(species.gender_rate);

@@ -15,11 +15,11 @@ onMounted(() => {
 
 const stats = [
     { label: 'HP', value: 207 },
-    { label: 'ATA', value: 49 },
+    { label: 'ATK', value: 49 },
     { label: 'DEF', value: 40 },
-    { label: 'ATE', value: 65 },
-    { label: 'DEE', value: 52 },
-    { label: 'VEL', value: 65 },
+    { label: 'SPA', value: 65 },
+    { label: 'SPD', value: 52 },
+    { label: 'SPE', value: 65 },
 ]
 
 type StatName =
@@ -30,10 +30,10 @@ export type PokemonStat = { name: StatName; base: number }
 
 const props = withDefaults(defineProps<{
     stats: PokemonStat[]
-    max?: number        // máximo usado pra normalizar (PokeAPI ~255)
+    max?: number
     showNumbers?: boolean,
-    steps?: number // quantas “linhas”
-}>(), { max: 255, showNumbers: true, steps: 20 })
+    steps?: number //
+}>(), { max: 255, showNumbers: true, steps: 15 })
 
 const label: Record<StatName, string> = {
     hp: 'HP', attack: 'ATK', defense: 'DEF',
@@ -63,37 +63,12 @@ const filledSteps = (v: number) => {
     return Math.max(0, Math.min(props.steps, Math.round((clamped / props.max) * props.steps)))
 }
 
-const getPokemonGenderIcon = (gender: PokemonGender) => {
-    
-}
-
-const pokemonGender = (gender: PokemonGender) => {
-    if (gender === "female-only") {
-
-    }
-
-    return 
-}
-
 </script>
 <template>
-    <!-- <div class="max-h-[1440px] h-dvh">
-        <div class="text-center flex flex-1 flex-col items-center max-h-[1440px] h-dvh w-full justify-center">
 
-            <img :src="logoPokemon || ''" class="h-40 px-4 lg:px-0 lg:h-68 w-full" />
+    <div class="relative px-6 pt-14 lg:px-8 max-h-[1080px] h-dvh border-b border-zinc-900/10">
 
-        </div>
-
-        
-    </div> -->
-    <div class="relative px-6 pt-14 lg:px-8 max-h-[1080px] h-dvh">
-        <!-- <div aria-hidden="true"
-            class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
-            <div style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"
-                class="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-[#fff352] to-[#ffe100] opacity-30 sm:left-[calc(50%-30rem)] sm:w-288.75">
-            </div>
-        </div> -->
-        <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56 h-full justify-center align-center flex flex-col">
+        <div class="mx-auto max-w-2xl h-full justify-center align-center flex flex-col">
 
             <div class="text-center flex flex-col gap-4">
                 <div class="flex flex-col gap-2">
@@ -119,119 +94,130 @@ const pokemonGender = (gender: PokemonGender) => {
                 </div>
             </div>
         </div>
-        <!-- <div aria-hidden="true"
-            class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-60rem)]">
-            <div style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"
-                class="relative left-[calc(50%+3rem)] aspect-1155/678 w-144.5 -translate-x-1/2 bg-linear-to-tr from-[#0004ff] to-[#ffe100] opacity-30 sm:left-[calc(50%+36rem)] sm:w-288.75">
-            </div>
-        </div> -->
+
     </div>
+
     <section>
-        <!-- <div class="">
-            <h2 class="text-6xl font-bold">Pokémon do dia!</h2>
-            <h3 class="text-xl font-semibold">Descubra quem te acompanha hoje!</h3>
 
-            <div v-if="loading">Carregando…</div>
-            <div v-else-if="error" class="text-red-500">Erro ao carregar.</div>
+        <div class="px-4 py-40 lg:px-8 flex flex-col gap-16 items-center">
 
-            <div v-else-if="pokemon" class="space-y-3">
-                <img :src="shiny ? pokemon.shinySprite : pokemon.sprite" :alt="pokemon.name"
-                    class="w-full h-160 object-contain" />
-                <h3 class="text-2xl font-semibold">#{{ pokemon.id }} {{ displayName }}</h3>
-                <p class="text-sm text-zinc-600 dark:text-zinc-400">{{ pokemon.flavor }}</p>
-
-            </div>
-        </div> -->
-        <div
-            class="relative isolate px-6 py-24 sm:py-32 lg:px-8 justify-center align-center flex flex-col text-center gap-16 items-stretch">
-            <!-- <div aria-hidden="true"
-                class="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl ">
-                <div style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"
-                    class="mx-auto aspect-1155/678 w-288.75 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30">
-                </div>
-            </div> -->
-            <div class="mx-auto max-w-4xl text-center gap-2 flex flex-col">
-                <p class="pt-2 text-5xl font-semibold tracking-tight text-balance sm:text-6xl">
+            <div class="max-w-2xl text-center gap-2 flex flex-col">
+                <p class="text-[40px] font-semibold sm:text-6xl">
                     {{ displayName }}, seu parceiro do dia<span class="text-blue-primary">.</span></p>
-                <p class="mx-auto  text-center w-full text-lg font-medium text-pretty sm:text-xl/8">
-                    Descubra forças e fraquezas, evolução e a arte oficial. {{ pokemon?.gender }}</p>
+                <p class="mx-auto  text-center w-full text-lg/8 font-medium text-pretty sm:text-xl/8">
+                    Descubra forças e fraquezas, evolução e a arte oficial.</p>
             </div>
 
-            <div class="flex justify-between gap-12">
-                <div class="flex flex-1 self-stretch">
-                    <!-- 1 -->
+            <div class="flex flex-col gap-4 items-center">
+                <div class="max-w-2xl text-center flex flex-col">
+                    <p class="text-3xl font-semibold sm:text-6xl">
+                        {{ displayName }}</p>
+                    <p class="text-sm">
+                        IDº{{ pokemon?.id }}</p>
+                </div>
 
-                    <div class="flex flex-1 flex-row gap-2 items-end">
-                        <div v-for="(s, i) in stats" :key="i" class="flex flex-1 flex-col justify-items-center gap-2">
-                            <!-- barra -->
-                            <ul class="flex flex-1 flex-col-reverse gap-1">
-                                <li v-for="n in steps" :key="n" class="h-1 "
-                                    :class="n <= filledSteps(s.value) ? 'bg-yellow-primary' : 'bg-yellow-primary/25'" />
-                            </ul>
-                            <!-- rótulo -->
-                            <div class="text-xs font-medium tracking-wide">
-                                {{ s.label }}
+                <div class="grid sm:grid-cols-3 max-w-3xl md:max-w-5xl justify-between gap-4 md:gap-12 items-stretch">
+
+                    <div class="flex flex-col flex-1 order-3 sm:order-1 justify-center py-4 gap-6">
+                        <div class="flex flex-row gap-2 items-end">
+                            <div v-for="(s, i) in stats" :key="i"
+                                class="flex flex-1 flex-col justify-items-center gap-2 text-center">
+                                <ul class="flex flex-1 flex-col-reverse gap-1">
+                                    <li v-for="n in steps" :key="n" class="h-[5px] "
+                                        :class="n <= filledSteps(s.value) ? 'bg-yellow-primary' : 'bg-yellow-primary/10'" />
+                                </ul>
+                                <div class="text-sm font-medium tracking-wide">
+                                    {{ s.label }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-1 gap-8 items-center justify-center">
+                            <div class="flex flex-col items-center justify-center gap-1">
+                                <div class="p-2 bg-yellow-primary/10 rounded-full">
+                                    <img v-if="pokemon" :src="pokemon.sprite" :alt="pokemon.name"
+                                        class="h-24 w-24 object-contain" />
+                                </div>
+                                <div class="max-w-2xl text-center flex flex-col">
+                                    <p class="font-semibold">
+                                        {{ displayName }}</p>
+                                    <p class="text-sm">
+                                        IDº{{ pokemon?.id }}</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center justify-center gap-1">
+                                <div class="p-2 bg-yellow-primary/10 rounded-full">
+                                    <img v-if="pokemon" :src="pokemon.sprite" :alt="pokemon.name"
+                                        class="h-24 w-24 object-contain" />
+                                </div>
+                                <div class="max-w-2xl text-center flex flex-col">
+                                    <p class="font-semibold">
+                                        {{ displayName }}</p>
+                                    <p class="text-sm">
+                                        IDº{{ pokemon?.id }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="flex flex-1 flex-col items-center justify-center gap-4 ">
-                    <img v-if="pokemon" :src="pokemon.sprite" :alt="pokemon.name"
-                        class="h-auto w-full object-contain" />
-                </div>
+                    <div class="flex flex-1 order-1 sm:order-2">
+                        <img v-if="pokemon" :src="pokemon.sprite" :alt="pokemon.name"
+                            class="h-auto w-full object-contain" />
+                    </div>
 
-                <div class="flex flex-1 flex-col justify-between self-stretch">
-                    <div class="flex flex-col gap-3 items-baseline">
-                        <span class="text-left">
-                            {{ pokemon?.flavor }}
-                        </span>
+                    <div class="flex flex-1 flex-col justify-between self-stretch gap-3 p-2 order-2 sm:order-3">
+                        <div class="flex flex-col gap-3 items-baseline">
+                            <span class="text-left">
+                                {{ pokemon?.flavor }}
+                            </span>
 
-                        <div class="flex flex-col gap-1 items-baseline">
-                            <span class="text-xs">Tipo</span>
-                            <div class="flex flex-row gap-2 flex-1 align-center items-center flex-wrap">
-                                <a v-for="type in pokemon?.types" href="#"
-                                    class="rounded-md bg-yellow-primary px-6 py-2 text-sm font-medium shadow-xs text-zinc-950 capitalize">{{
-                                        type }}</a>
+                            <div class="flex flex-col gap-1 items-baseline">
+                                <span class="text-sm">Tipo</span>
+                                <div class="flex flex-row gap-2 flex-1 align-center items-center flex-wrap">
+                                    <a v-for="type in pokemon?.types" href="#"
+                                        class="rounded-md bg-yellow-primary px-6 py-2 text-sm font-medium shadow-xs text-zinc-950 capitalize">{{
+                                            type }}</a>
+                                </div>
+
+                            </div>
+
+                            <div class="flex flex-col gap-1 items-baseline">
+                                <span class="text-sm">Habilidades</span>
+                                <div class="flex flex-row gap-2 flex-1 align-center items-center flex-wrap">
+                                    <a v-for="ability in pokemon?.abilities" href="#"
+                                        class="rounded-md bg-blue-primary px-6 py-2 text-sm font-medium shadow-xs text-zinc-50 capitalize">{{
+                                            ability.name.replace("-", " ") }}</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 px-2 py-4">
+
+                            <div class="flex flex-1 flex-col gap-1 items-baseline">
+                                <span class="text-sm">Altura</span>
+                                <span class="font-medium">{{ pokemon?.height }} m</span>
+                            </div>
+
+                            <div class="flex flex-1 flex-col gap-1 items-baseline">
+                                <span class="text-sm">Peso</span>
+                                <span class="font-medium">{{ pokemon?.weight }} kg</span>
+                            </div>
+
+                            <div class="flex flex-1 flex-col gap-1 items-baseline">
+                                <span class="text-sm">Categoria</span>
+                                <span class="font-medium">{{ pokemon?.category.replace("Pokémon", "") }}</span>
+                            </div>
+
+                            <div class="flex flex-1 flex-col gap-1 items-baseline">
+                                <span class="text-sm">Sexo</span>
+                                <component v-if="pokemon?.gender.icon" :is="pokemon?.gender.icon" class="w-4 h-4" />
+                                <span v-else>-</span>
                             </div>
 
                         </div>
-
-                        <div class="flex flex-col gap-1 items-baseline">
-                            <span class="text-xs">Tipo</span>
-                            <div class="flex flex-row gap-2 flex-1 align-center items-center flex-wrap">
-                                <a v-for="ability in pokemon?.abilities" href="#"
-                                    class="rounded-md bg-blue-primary px-6 py-2 text-sm font-medium shadow-xs text-zinc-50 capitalize">{{
-                                        ability.name.replace("-", " ") }}</a>
-                            </div>
-                        </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3 px-2 py-4">
-
-                        <div class="flex flex-1 flex-col gap-1 items-baseline">
-                            <span class="text-xs">Altura</span>
-                            <span class="font-medium">{{ pokemon?.height }} m</span>
-                        </div>
-
-                        <div class="flex flex-1 flex-col gap-1 items-baseline">
-                            <span class="text-xs">Peso</span>
-                            <span class="font-medium">{{ pokemon?.weight }} kg</span>
-                        </div>
-
-                        <div class="flex flex-1 flex-col gap-1 items-baseline">
-                            <span class="text-xs">Categoria</span>
-                            <span class="font-medium">{{ pokemon?.category.replace("Pokémon", "") }}</span>
-                        </div>
-
-                        <div class="flex flex-1 flex-col gap-1 items-baseline">
-                            <span class="text-xs">Sexo</span>
-                            <span class="font-medium">{{ pokemon?.gender }}</span>
-                        </div>
-
-                    </div>
                 </div>
-
             </div>
         </div>
     </section>

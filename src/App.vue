@@ -1,15 +1,14 @@
 <script setup lang="ts">
 
-import { Moon, Sun, CircleUser, UserRoundCog, Menu, X } from 'lucide-vue-next';
+import { Moon, Sun, Menu, X } from 'lucide-vue-next';
 
-import logoPokemon from '@/assets/logoPokemon.svg'
+import logoPokemon from '@/assets/logoPokemon.svg';
 
-import pokeball from '@/assets/pokeball.png'
 
 import { useTheme } from '@/composables/useTheme';
 const { isDark, toggle } = useTheme()
 
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -23,7 +22,7 @@ const mobileMenuOpen = ref(false)
 </script>
 
 <template>
-  <header class="absolute inset-x-0 top-0 z-50 align-center justify-center">
+  <header class="sticky top-0 z-50 w-full bg-zinc-50/75">
     <nav class="flex items-center justify-between px-4 md:px-8 py-4">
 
       <div class="flex flex-1">
@@ -94,7 +93,6 @@ const mobileMenuOpen = ref(false)
         </div>
       </DialogPanel>
     </Dialog>
-
   </header>
 
   <main class="min-h-full place-items-center">
