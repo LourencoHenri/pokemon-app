@@ -77,18 +77,28 @@ const mobileMenuOpen = ref(false)
 
         <div class="px-2">
 
-          <div class="divide-y divide-zinc-500/10">
+          <div class="flex flex-col gap-2">
 
-            <div class="py-2">
+            <div class="py-2 border-b border-zinc-900/10">
               <a v-for="item in navigation" :key="item.name" :href="item.href"
                 class="block px-4 py-2 text-base/7 font-semibold text-zinc-950 dark:text-zinc-50">{{
                   item.name }}</a>
             </div>
 
-            <div>
+            <div class="py-2 border-b border-zinc-900/10">
               <a href="#" class="block px-4 py-2 text-base/7 font-semibold text-zinc-950 dark:text-zinc-50">Log
                 in</a>
             </div>
+
+            <button type="button" @click="toggle()"
+              class="flex items-center justify-center group p-2 rounded-full cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all duration-300 ease-in-out px-4">
+
+              <Sun v-if="isDark" key="sun" :size="16"
+                class="text-zinc-950 dark:text-zinc-50 transition-colors duration-300 ease-in-out" />
+
+              <Moon v-else key="moon" :size="16"
+                class="w-4 text-zinc-950 dark:text-zinc-50 transition-colors duration-300 ease-in-out" />
+            </button>
 
           </div>
         </div>
