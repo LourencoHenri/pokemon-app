@@ -4,20 +4,20 @@ import type { Pokemon, PokemonGender } from "@/types/pokemon";
 
 import { Mars, Venus, VenusAndMars } from "lucide-vue-next";
 
-const MAX_ID_FALLBACK = 1100;
+const MAX_ID_FALLBACK = 1328;
 
 function localDateKey() {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 function pickIdFromKey(key: string, max: number) {
   let h = 0;
   for (let i = 0; i < key.length; i++) h = (h * 33 + key.charCodeAt(i)) >>> 0;
-  return (h % max) + 1; // 1..max
+  return (h % max) + 1;
 }
 
 async function getMaxSpeciesId(signal?: AbortSignal): Promise<number> {
@@ -33,7 +33,6 @@ async function getMaxSpeciesId(signal?: AbortSignal): Promise<number> {
     }
   }
   try {
-    // usa species para garantir IDs contínuos
     const res = await pokeApi.get("/pokemon-species", {
       params: { limit: 1 },
       signal,
@@ -63,15 +62,15 @@ export function useDailyPokemon() {
 
   async function load() {
     try {
-      // const cacheKey = `dailyPokemon:${dayKey}`;
+      const cacheKey = `dailyPokemon:${dayKey}`;
 
-      // if (typeof window !== "undefined") {
-      //   const cached = localStorage.getItem(cacheKey);
-      //   if (cached) {
-      //     dailyPokemon.value = JSON.parse(cached) as Pokemon;
-      //     return;
-      //   }
-      // }
+      if (typeof window !== "undefined") {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          dailyPokemon.value = JSON.parse(cached) as Pokemon;
+          return;
+        }
+      }
 
       loading.value = true;
       error.value = null;
@@ -161,9 +160,9 @@ export function useDailyPokemon() {
       } as Pokemon & { shinySprite?: string | null; flavor?: string };
 
       dailyPokemon.value = data;
-      // if (typeof window !== "undefined") {
-      //   localStorage.setItem(cacheKey, JSON.stringify(data));
-      // }
+      if (typeof window !== "undefined") {
+        localStorage.setItem(cacheKey, JSON.stringify(data));
+      }
     } catch (e: any) {
       const isCanceled =
         e?.code === "ERR_CANCELED" ||

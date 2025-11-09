@@ -1,17 +1,3 @@
-// export type Pokemon = {
-//   id: number;
-//   name: string;
-//   types: string[];
-//   sprite: string | null;
-//   shinySprite: string | null;
-//   heightM: number;
-//   weightKg: number;
-//   abilities: string[];
-//   baseExp: number;
-//   stats: { name: StatName; base: number }[];
-//   flavor: string;
-// };
-
 import type { Component } from "vue";
 
 export type StatName =
@@ -45,17 +31,75 @@ export type PokemonGender = {
 };
 
 export type Pokemon = {
-  id: number; //.id
-  name: string; //.name
-  sprite: string; //.?sprites?.other?.dream_world?.front_default ?? sprites?.other?.["official-artwork"]?.front_shiny ?? sprites?.front_default
+  id: number;
+  name: string;
+  sprite: string;
   shinySprite: string;
   height: number;
   weight: number;
 
-  types: string[]; //.types.map((t: any) => t.type.name) //
-  stats: PokemonStat[]; //.stats.map((st: any) => ({ name: st.stat.name, base: st.base_stat }))
-  abilities: PokemonAbility[]; //
-  gender: PokemonGender; //
+  types: string[];
+  stats: PokemonStat[];
+  abilities: PokemonAbility[];
+  gender: PokemonGender;
   category: string;
   flavor: string;
 };
+
+export type PokemonListItem = {
+  id: number | null;
+  name: string;
+  url: string;
+  sprite: string;
+  types: string[];
+};
+
+export type PokemonItemResponse = {
+  name: string;
+  url: string;
+};
+
+export type PokemonType =
+  | "normal"
+  | "fighting"
+  | "flying"
+  | "poison"
+  | "ground"
+  | "rock"
+  | "bug"
+  | "ghost"
+  | "steel"
+  | "fire"
+  | "water"
+  | "grass"
+  | "electric"
+  | "psychic"
+  | "ice"
+  | "dragon"
+  | "dark"
+  | "fairy"
+  | "unknown"
+  | "shadow";
+
+export const TYPE_BADGE = {
+  normal: "bg-stone-300/50 text-zinc-950",
+  fighting: "bg-red-300/50 text-zinc-950",
+  flying: "bg-sky-300/50 text-zinc-950",
+  poison: "bg-purple-300/50 text-zinc-950",
+  ground: "bg-amber-300/50 text-zinc-950",
+  rock: "bg-stone-300/50 text-zinc-950",
+  bug: "bg-lime-300/50 text-zinc-950",
+  ghost: "bg-indigo-300/50 text-white",
+  steel: "bg-slate-300/50 text-zinc-950",
+  fire: "bg-orange-300/50 text-zinc-950",
+  water: "bg-blue-300/50 text-zinc-950",
+  grass: "bg-emerald-300/50 text-zinc-950",
+  electric: "bg-yellow-300/50 text-zinc-950",
+  psychic: "bg-fuchsia-300/50 text-zinc-950",
+  ice: "bg-cyan-300/50 text-zinc-950",
+  dragon: "bg-violet-300/50 text-zinc-950",
+  dark: "bg-neutral-300/50 text-zinc-950",
+  fairy: "bg-rose-300/50 text-zinc-950",
+  unknown: "bg-zinc-300/50 text-zinc-950",
+  shadow: "bg-violet-300/50 text-zinc-950",
+} as const satisfies Record<PokemonType, string>;

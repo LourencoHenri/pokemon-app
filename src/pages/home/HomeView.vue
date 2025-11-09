@@ -9,10 +9,6 @@ import type { PokemonGender } from '@/types/pokemon';
 const { dayKey, pokemon, loading, error, shiny, displayName, load } = useDailyPokemon()
 onMounted(load)
 
-onMounted(() => {
-    console.log('abilities:', pokemon.value?.abilities);
-})
-
 const stats = [
     { label: 'HP', value: 207 },
     { label: 'ATK', value: 49 },

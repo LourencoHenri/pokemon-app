@@ -13,7 +13,7 @@ import { ref } from 'vue';
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Pokémon of the day', href: '/pokemon' },
-  { name: 'Pokémon', href: '/' },
+  { name: 'Pokémon', href: '/pokemon' },
   { name: 'Favorites', href: '/favorites' },
 ]
 
@@ -54,7 +54,7 @@ const mobileMenuOpen = ref(false)
             class="w-4 text-zinc-950 dark:text-zinc-50 transition-colors duration-300 ease-in-out" />
         </button>
 
-        <a href="#" class="text-sm/6 font-semibold">Log in</a>
+        <RouterLink to="/login" class="text-sm/6 font-semibold">Log in</RouterLink>
       </div>
     </nav>
 
@@ -80,9 +80,9 @@ const mobileMenuOpen = ref(false)
           <div class="flex flex-col gap-2">
 
             <div class="py-2 border-b border-zinc-900/10">
-              <a v-for="item in navigation" :key="item.name" :href="item.href"
+              <RouterLink v-for="item in navigation" :key="item.name" :to="item.href"
                 class="block px-4 py-2 text-base/7 font-semibold text-zinc-950 dark:text-zinc-50">{{
-                  item.name }}</a>
+                  item.name }}</RouterLink>
             </div>
 
             <div class="py-2 border-b border-zinc-900/10">
