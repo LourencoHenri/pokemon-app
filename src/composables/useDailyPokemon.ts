@@ -3,8 +3,14 @@ import pokeApi from "@/services/pokeApi";
 import type { Pokemon, PokemonGender } from "@/types/pokemon";
 
 import { Mars, Venus, VenusAndMars } from "lucide-vue-next";
+import {
+  extractIdFromUrl,
+  getEvolutionChainById,
+  getPokemon,
+  getSpecies,
+} from "@/services/pokemon";
 
-const MAX_ID_FALLBACK = 1328;
+const MAX_ID_FALLBACK = 1200;
 
 function localDateKey() {
   const date = new Date();
@@ -64,13 +70,13 @@ export function useDailyPokemon() {
     try {
       const cacheKey = `dailyPokemon:${dayKey}`;
 
-      if (typeof window !== "undefined") {
-        const cached = localStorage.getItem(cacheKey);
-        if (cached) {
-          dailyPokemon.value = JSON.parse(cached) as Pokemon;
-          return;
-        }
-      }
+      // if (typeof window !== "undefined") {
+      //   const cached = localStorage.getItem(cacheKey);
+      //   if (cached) {
+      //     dailyPokemon.value = JSON.parse(cached) as Pokemon;
+      //     return;
+      //   }
+      // }
 
       loading.value = true;
       error.value = null;
@@ -78,15 +84,8 @@ export function useDailyPokemon() {
       const max = await getMaxSpeciesId(abort.signal);
       const id = pickIdFromKey(dayKey, max);
 
-      const [pRes, sRes] = await Promise.all([
-        pokeApi.get(`/pokemon/${id}`, { signal: abort.signal }),
-        pokeApi.get(`/pokemon-species/${id}`, { signal: abort.signal }),
-      ]);
-
-      // DATA
-
-      const pokemon = pRes.data;
-      const species = sRes.data;
+      const pokemon = await getPokemon(id);
+      const species = await getSpecies(id);
 
       const flavorRaw =
         species.flavor_text_entries.find(
@@ -123,6 +122,8 @@ export function useDailyPokemon() {
         (item: any) => item.language.name === "en"
       ).genus;
 
+      // GET GENDER
+
       const getPokemonGender = (genderRate: number): PokemonGender => {
         if (genderRate === -1) {
           return { name: "genderless", icon: undefined };
@@ -141,6 +142,50 @@ export function useDailyPokemon() {
 
       const pokemonGender = getPokemonGender(species.gender_rate);
 
+      // GET EVOLUTIONS
+
+      const chainId = await extractIdFromUrl(species.evolution_chain.url);
+
+      const evolutions = await getEvolutionChainById(chainId);
+
+      const extractSpeciesId = (url: string) =>
+        Number(url.match(/pokemon-species\/(\d+)\/?$/)?.[1] ?? 0);
+
+      function getEvolutionSpecies(
+        chain: any
+      ): Array<{ name: string; url: string }> {
+        const out: Array<{ name: string; url: string }> = [];
+        const dfs = (node: any) => {
+          if (!node) return;
+          const sp = node.species;
+          if (sp?.name && sp?.url) out.push({ name: sp.name, url: sp.url });
+          (node.evolves_to || []).forEach(dfs);
+        };
+        dfs(chain);
+        return out;
+      }
+
+      const finalEvolutions = evolutions
+        ? getEvolutionSpecies(evolutions.chain)
+        : [];
+
+      const evolutionsDisplay = await Promise.all(
+        finalEvolutions.map(async (e) => {
+          const sid = extractSpeciesId(e.url);
+          if (!sid) {
+            return { id: 0, name: e.name, url: e.url, sprite: null };
+          }
+          // importante: esta função é async, e aqui usamos await dentro do map corretamente
+          const pkm = await getPokemon(sid);
+          const sprite =
+            pkm.sprites?.other?.["official-artwork"]?.front_default ??
+            pkm.sprites?.other?.dream_world?.front_default ??
+            pkm.sprites?.front_default ??
+            null;
+          return { id: sid, name: pkm.name, url: e.url, sprite };
+        })
+      );
+
       const data: Pokemon = {
         id: pokemon.id,
         name: pokemon.name,
@@ -157,12 +202,14 @@ export function useDailyPokemon() {
         gender: pokemonGender,
         category: pokemonCategory,
         flavor,
+        evolutions: evolutionsDisplay,
       } as Pokemon & { shinySprite?: string | null; flavor?: string };
 
       dailyPokemon.value = data;
-      if (typeof window !== "undefined") {
-        localStorage.setItem(cacheKey, JSON.stringify(data));
-      }
+
+      // if (typeof window !== "undefined") {
+      //   localStorage.setItem(cacheKey, JSON.stringify(data));
+      // }
     } catch (e: any) {
       const isCanceled =
         e?.code === "ERR_CANCELED" ||

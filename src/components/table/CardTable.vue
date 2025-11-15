@@ -88,21 +88,5 @@ watch([search, sortBy, sortOrder, typeFilter, pageSize], () => { page.value = 1 
         <slot name="card" v-for="item in paged" :key="item.id" :item="item" />
     </div>
 
-    <div class="flex justify-between items-center gap-8 pt-2 w-full">
-        <button @click="page--" :disabled="page === 1" class="p-2 rounded-full cursor-pointer">
-            <ChevronLeft :size="32" />
-        </button>
-
-        <div class="flex gap-8">
-            <span class="p-2 rounded-full text-sm text-zinc-500 cursor-pointer">{{ page }}</span>
-
-            <span class="p-2 rounded-full text-sm text-zinc-500 cursor-pointer">{{ page + 1 }}</span>
-
-            <span class="p-2 rounded-full text-sm text-zinc-500 cursor-pointer">{{ page + 2 }}</span>
-        </div>
-
-        <button @click="page++" :disabled="page === totalPages" class="p-2 rounded-full cursor-pointer">
-            <ChevronRight :size="32" />
-        </button>
-    </div>
+    
 </template>

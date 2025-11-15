@@ -11,9 +11,9 @@ const pokemon = withDefaults(defineProps<PokemonListItem>(), {
     types: () => [],
 })
 
-onMounted(() => {
-    console.log("pokemon", pokemon)
-})
+// onMounted(() => {
+//     console.log("pokemon", pokemon)
+// })
 
 </script>
 <template>
@@ -25,7 +25,6 @@ onMounted(() => {
         <div class="flex flex-1">
             <img :src="sprite" :alt="name" class="h-40 w-40 object-contain"
                 @error="($event.target as HTMLImageElement).src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`" />
-
         </div>
 
         <div class="max-w-2xl text-center">

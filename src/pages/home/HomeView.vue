@@ -7,7 +7,11 @@ import { ChevronRight, MoveRight, Mars, Venus, VenusAndMars } from 'lucide-vue-n
 import type { PokemonGender } from '@/types/pokemon';
 
 const { dayKey, pokemon, loading, error, shiny, displayName, load } = useDailyPokemon()
-onMounted(load)
+onMounted(() => {
+
+    console.log("pokemon", pokemon)
+    load()
+})
 
 const stats = [
     { label: 'HP', value: 207 },
@@ -105,7 +109,7 @@ const filledSteps = (v: number) => {
             </div>
 
             <div class="flex flex-col gap-4 items-center">
-                <div class="max-w-2xl text-center flex flex-col">
+                <div class="max-w-2xl text-center flex flex-col gap-2">
                     <p class="text-3xl font-semibold sm:text-6xl">
                         {{ displayName }}</p>
                     <p class="text-sm">
@@ -128,29 +132,19 @@ const filledSteps = (v: number) => {
                             </div>
                         </div>
 
-                        <div class="flex flex-1 gap-8 items-center justify-center">
-                            <div class="flex flex-col items-center justify-center gap-1">
-                                <div class="p-2 bg-yellow-primary/10 rounded-full">
-                                    <img v-if="pokemon" :src="pokemon.sprite" :alt="pokemon.name"
+                        <div v-if="pokemon?.evolutions?.length" class="flex flex-1 gap-8 items-center justify-center ">
+
+                            <div v-for="ev in pokemon.evolutions" :key="ev.id || ev.url || ev.name"
+                                class="flex flex-col items-center justify-center gap-1">
+                                <div class="p-2 rounded-full">
+                                    <img v-if="ev.sprite" :src="ev.sprite" :alt="ev.name"
                                         class="h-24 w-24 object-contain" />
                                 </div>
                                 <div class="max-w-2xl text-center flex flex-col">
                                     <p class="font-semibold">
-                                        {{ displayName }}</p>
+                                        {{ ev.name }}</p>
                                     <p class="text-sm">
-                                        IDº{{ pokemon?.id }}</p>
-                                </div>
-                            </div>
-                            <div class="flex flex-col items-center justify-center gap-1">
-                                <div class="p-2 bg-yellow-primary/10 rounded-full">
-                                    <img v-if="pokemon" :src="pokemon.sprite" :alt="pokemon.name"
-                                        class="h-24 w-24 object-contain" />
-                                </div>
-                                <div class="max-w-2xl text-center flex flex-col">
-                                    <p class="font-semibold">
-                                        {{ displayName }}</p>
-                                    <p class="text-sm">
-                                        IDº{{ pokemon?.id }}</p>
+                                        IDº{{ ev.id }}</p>
                                 </div>
                             </div>
                         </div>

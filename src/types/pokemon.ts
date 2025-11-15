@@ -44,6 +44,7 @@ export type Pokemon = {
   gender: PokemonGender;
   category: string;
   flavor: string;
+  evolutions?: any;
 };
 
 export type PokemonListItem = {
